@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AutoBeauty</string>
+    <string name="action_settings">未定义</string>
+    <string name="store_name">XX汽车美容</string>
+    <string name="tv_title">初始值</string>
+    
+    
+    <string name="gallery_2_text">Testing</string>
+    
+
+</resources>
