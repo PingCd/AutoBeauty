@@ -8,7 +8,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -22,19 +24,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SearchView;
+import android.widget.ImageView.ScaleType;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 public class AutoBeautyActivity extends Activity {
@@ -53,10 +52,10 @@ public class AutoBeautyActivity extends Activity {
 
 	private String texts[] = null;
 	private int images[] = null;
-	
+
 	private ImageButton imagebutton;
-	
-//	private SearchView searchView;
+
+	// private SearchView searchView;
 
 	// private ListView ls_table; // 美容服务类别列表
 	// private LayoutInflater inflater;
@@ -76,91 +75,93 @@ public class AutoBeautyActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auto_beauty);
-//		// 如果当前的状态为 null 
-//		if (savedInstanceState == null) {
-//			getFragmentManager().beginTransaction()
-//					.add(R.id.container, new PlaceholderFragment()).commit();
-		//搜索 按钮
+		// // 如果当前的状态为 null
+		// if (savedInstanceState == null) {
+		// getFragmentManager().beginTransaction()
+		// .add(R.id.container, new PlaceholderFragment()).commit();
+		// 搜索 按钮
 		imagebutton = (ImageButton) findViewById(R.id.imagebutton);
 		imagebutton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(AutoBeautyActivity.this, SampleSearchActivity.class);
+				Intent intent = new Intent(AutoBeautyActivity.this,
+						SampleSearchActivity.class);
 				startActivity(intent);
-				
+
 			}
 		});
-//		searchView = (SearchView) findViewById(R.id.searchView1);
-//		searchView.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				Intent i = new Intent(AutoBeautyActivity.this, SampleSearchActivity.class);
-//				startActivity(i);
-//				
-//			}
-//		});
-		
-		
-			imageResId = new int[] { R.drawable.a, R.drawable.b, R.drawable.c,
-					R.drawable.d, R.drawable.e };
-			titles = new String[imageResId.length];
-			titles[0] = "xx美容1";
-			titles[1] = "xx美容2";
-			titles[2] = "xx美容3";
-			titles[3] = "xx美容4";
-			titles[4] = "xx美容5";
+		// searchView = (SearchView) findViewById(R.id.searchView1);
+		// searchView.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		// Intent i = new Intent(AutoBeautyActivity.this,
+		// SampleSearchActivity.class);
+		// startActivity(i);
+		//
+		// }
+		// });
 
-			imageViews = new ArrayList<ImageView>();
+		imageResId = new int[] { R.drawable.a, R.drawable.b, R.drawable.c,
+				R.drawable.d, R.drawable.e };
+		titles = new String[imageResId.length];
+		titles[0] = "xx美容1";
+		titles[1] = "xx美容2";
+		titles[2] = "xx美容3";
+		titles[3] = "xx美容4";
+		titles[4] = "xx美容5";
 
-			// 初始化图片资源
-			for (int i = 0; i < imageResId.length; i++) {
-				ImageView imageView = new ImageView(this);
-				imageView.setImageResource(imageResId[i]);
-				imageView.setScaleType(ScaleType.CENTER_CROP);
-				imageViews.add(imageView);
-			}
+		imageViews = new ArrayList<ImageView>();
 
-			dots = new ArrayList<View>();
-			dots.add(findViewById(R.id.v_dot0));
-			dots.add(findViewById(R.id.v_dot1));
-			dots.add(findViewById(R.id.v_dot2));
-			dots.add(findViewById(R.id.v_dot3));
-			dots.add(findViewById(R.id.v_dot4));
+		// 初始化图片资源
+		for (int i = 0; i < imageResId.length; i++) {
+			ImageView imageView = new ImageView(this);
+			imageView.setImageResource(imageResId[i]);
+			imageView.setScaleType(ScaleType.CENTER_CROP);
+			imageViews.add(imageView);
+		}
 
-			tv_title = (TextView) findViewById(R.id.tv_title);
-			tv_title.setText(titles[0]);
+		dots = new ArrayList<View>();
+		dots.add(findViewById(R.id.v_dot0));
+		dots.add(findViewById(R.id.v_dot1));
+		dots.add(findViewById(R.id.v_dot2));
+		dots.add(findViewById(R.id.v_dot3));
+		dots.add(findViewById(R.id.v_dot4));
 
-			viewPager = (ViewPager) findViewById(R.id.vp);
-			viewPager.setAdapter(new MyAdapter());// 设置填充ViewPager页面的适配器
-			// 设置一个监听器，当ViewPager中的页面改变时调用
-			viewPager.setOnPageChangeListener(new MyPageChangeListener());
+		tv_title = (TextView) findViewById(R.id.tv_title);
+		tv_title.setText(titles[0]);
 
-			images = new int[] { R.drawable.a, R.drawable.b, R.drawable.c,
-					R.drawable.d, R.drawable.e, R.drawable.f, R.drawable.g, R.drawable.q, R.drawable.w };
-			texts = new String[] { "轮毂", "座垫", "方向盘套", "车贴拉花", "鲨鱼鳍", "内饰",
-					"创意装饰", "店面介绍", "优惠活动" };
+		viewPager = (ViewPager) findViewById(R.id.vp);
+		viewPager.setAdapter(new MyAdapter());// 设置填充ViewPager页面的适配器
+		// 设置一个监听器，当ViewPager中的页面改变时调用
+		viewPager.setOnPageChangeListener(new MyPageChangeListener());
 
-			gridview = (GridView) findViewById(R.id.gridview);
-			ArrayList<HashMap<String, Object>> lstImageItem = new ArrayList<HashMap<String, Object>>();
-			for (int i = 0; i < 9; i++) {
-				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("itemImage", images[i]);
-				map.put("itemText", texts[i]);
-				lstImageItem.add(map);
-			}
+		images = new int[] { R.drawable.a, R.drawable.b, R.drawable.c,
+				R.drawable.d, R.drawable.e, R.drawable.f, R.drawable.g,
+				R.drawable.q, R.drawable.w };
+		texts = new String[] { "轮毂", "座垫", "方向盘套", "车贴拉花", "鲨鱼鳍", "内饰", "创意装饰",
+				"店面介绍", "优惠活动" };
 
-			SimpleAdapter saImageItems = new SimpleAdapter(this, lstImageItem,// 数据源
-					R.layout.item,// 显示布局
-					new String[] { "itemImage", "itemText" }, new int[] {
-							R.id.iv_item, R.id.tv_name });
-			gridview.setAdapter(saImageItems);
-			gridview.setOnItemClickListener(new ItemClickListener());
+		gridview = (GridView) findViewById(R.id.gridview);
+		ArrayList<HashMap<String, Object>> lstImageItem = new ArrayList<HashMap<String, Object>>();
+		for (int i = 0; i < 9; i++) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("itemImage", images[i]);
+			map.put("itemText", texts[i]);
+			lstImageItem.add(map);
+		}
 
-//		}
+		SimpleAdapter saImageItems = new SimpleAdapter(this, lstImageItem,// 数据源
+				R.layout.item,// 显示布局
+				new String[] { "itemImage", "itemText" }, new int[] {
+						R.id.iv_item, R.id.tv_name });
+		gridview.setAdapter(saImageItems);
+		gridview.setOnItemClickListener(new ItemClickListener());
+
+		// }
 	}
 
 	class ItemClickListener implements OnItemClickListener {
@@ -188,13 +189,12 @@ public class AutoBeautyActivity extends Activity {
 			Intent intent = new Intent();
 			intent.setClass(AutoBeautyActivity.this, ShowActivity.class);
 			intent.putExtra("chose", texts[position]);
-			
-			Intent intent_ls=new Intent();
+
+			Intent intent_ls = new Intent();
 			intent_ls.setClass(AutoBeautyActivity.this, SelectActivity.class);
 			intent_ls.putExtra("chose", texts[position]);
-			
+
 			Intent i = new Intent(AutoBeautyActivity.this, ThirdActivity.class);
-			
 
 			// 根据图片进行相应的跳转
 			switch (images[position]) {
@@ -225,24 +225,24 @@ public class AutoBeautyActivity extends Activity {
 
 				break;
 			case R.drawable.f:
-				
+
 				startActivity(intent_ls);
-				
+
 				break;
 			case R.drawable.g:
-				
+
 				startActivity(intent);
-				
+
 				break;
 			case R.drawable.q:
-				
+
 				startActivity(i);
-				
+
 				break;
 			case R.drawable.w:
-				
+
 				startActivity(intent);
-				
+
 				break;
 
 			}
@@ -419,9 +419,25 @@ public class AutoBeautyActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			return true;
+			AlertDialog.Builder build = new AlertDialog.Builder(this);
+			build.setTitle("系统提示").setMessage("确定要退出吗？");
+			build.setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					});
+			build.setNegativeButton("取消",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).show();
+
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
 	/**

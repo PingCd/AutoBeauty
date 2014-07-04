@@ -5,10 +5,13 @@ import com.ab.autobeauty.R.layout;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -35,10 +38,50 @@ public class SampleSearchActivity extends Activity {
 			startActivity(i);
 			this.finish();
 			break;
+			
+		case R.id.action_settings:
+			AlertDialog.Builder build = new AlertDialog.Builder(this);
+			build.setTitle("系统提示").setMessage("确定要退出吗？");
+			build.setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					});
+			build.setNegativeButton("取消",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).show();
+
 		default:
 			break;
 		}
-		return super.onOptionsItemSelected(item);
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			AlertDialog.Builder build = new AlertDialog.Builder(this);
+			build.setTitle("系统提示").setMessage("确定要退出吗？");
+			build.setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					});
+			build.setNegativeButton("取消",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).show();
+
+			return true;
+		}
+		return true;
 	}
 	
 	public void onNewIntent(Intent intent) {  
@@ -60,4 +103,14 @@ public class SampleSearchActivity extends Activity {
 		//执行真正的查询结果处理  
 		 
 	}  
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.auto_beauty, menu);
+		return true;
+	}
+
+	
 }
