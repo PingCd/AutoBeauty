@@ -2,6 +2,7 @@ package com.ab.autobeauty;
 
 import com.ab.autobeauty.R;
 import com.ab.autobeauty.R.layout;
+import com.ab.autobeautyExit.ProjectExit;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -11,6 +12,7 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +20,11 @@ import android.widget.ListView;
 
 public class SampleSearchActivity extends Activity {
 	ActionBar aBar;
+
 	public void onCreate(Bundle savedInstanceState) {  
 		super.onCreate(savedInstanceState); 
 		setContentView(R.layout.search);
+		ProjectExit.getInstance().addActivity(this);
 		//标题作为返回主页按钮
 		aBar = getActionBar();
 		aBar.setDisplayShowHomeEnabled(true);
@@ -47,7 +51,7 @@ public class SampleSearchActivity extends Activity {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							finish();
+							ProjectExit.getInstance().exit();
 						}
 					});
 			build.setNegativeButton("取消",
@@ -59,27 +63,6 @@ public class SampleSearchActivity extends Activity {
 
 		default:
 			break;
-		}
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			AlertDialog.Builder build = new AlertDialog.Builder(this);
-			build.setTitle("系统提示").setMessage("确定要退出吗？");
-			build.setPositiveButton("确定",
-					new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							finish();
-						}
-					});
-			build.setNegativeButton("取消",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-						}
-					}).show();
-
-			return true;
 		}
 		return true;
 	}

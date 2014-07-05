@@ -1,5 +1,7 @@
 ﻿package com.ab.autobeauty;
 
+import com.ab.autobeautyExit.ProjectExit;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Process;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +39,7 @@ public class ShowActivity extends Activity implements OnItemSelectedListener,
 	private String chosesl;
 	private ImageButton ibtn, imagebutton;
 	
+	
 //	private SearchView searchView;
 
 	// private Integer[] mThumbIds = { R.drawable.b, R.drawable.c, R.drawable.d
@@ -60,6 +64,8 @@ public class ShowActivity extends Activity implements OnItemSelectedListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.showcar);
+		
+		ProjectExit.getInstance().addActivity(this);
 		//搜索 按钮
 //		searchView = (SearchView) findViewById(R.id.searchView1);
 //		searchView.setOnClickListener(new OnClickListener() {
@@ -304,7 +310,7 @@ public class ShowActivity extends Activity implements OnItemSelectedListener,
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							finish();
+							ProjectExit.getInstance().exit();
 						}
 					});
 			build.setNegativeButton("取消",

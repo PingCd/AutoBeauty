@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.ab.autobeautyExit.ProjectExit;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -16,6 +18,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.Process;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -54,7 +57,8 @@ public class AutoBeautyActivity extends Activity {
 	private int images[] = null;
 
 	private ImageButton imagebutton;
-
+	
+	
 	// private SearchView searchView;
 
 	// private ListView ls_table; // 美容服务类别列表
@@ -79,7 +83,9 @@ public class AutoBeautyActivity extends Activity {
 		// if (savedInstanceState == null) {
 		// getFragmentManager().beginTransaction()
 		// .add(R.id.container, new PlaceholderFragment()).commit();
-		// 搜索 按钮
+	
+		ProjectExit.getInstance().addActivity(this);
+		
 		imagebutton = (ImageButton) findViewById(R.id.imagebutton);
 		imagebutton.setOnClickListener(new OnClickListener() {
 
@@ -92,6 +98,7 @@ public class AutoBeautyActivity extends Activity {
 
 			}
 		});
+		// 搜索 按钮
 		// searchView = (SearchView) findViewById(R.id.searchView1);
 		// searchView.setOnClickListener(new OnClickListener() {
 		//
@@ -189,12 +196,15 @@ public class AutoBeautyActivity extends Activity {
 			Intent intent = new Intent();
 			intent.setClass(AutoBeautyActivity.this, ShowActivity.class);
 			intent.putExtra("chose", texts[position]);
+			
 
 			Intent intent_ls = new Intent();
 			intent_ls.setClass(AutoBeautyActivity.this, SelectActivity.class);
 			intent_ls.putExtra("chose", texts[position]);
+			
 
 			Intent i = new Intent(AutoBeautyActivity.this, ThirdActivity.class);
+			
 
 			// 根据图片进行相应的跳转
 			switch (images[position]) {
@@ -426,7 +436,7 @@ public class AutoBeautyActivity extends Activity {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							finish();
+							ProjectExit.getInstance().exit();
 						}
 					});
 			build.setNegativeButton("取消",

@@ -1,10 +1,13 @@
 package com.ab.autobeauty;
 
+import com.ab.autobeautyExit.ProjectExit;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +30,7 @@ public class SelectActivity extends Activity {
 	private LayoutInflater inflater;
 	private Integer[] imageResId;
 	private ImageButton ibtn, imagebutton;
+
 	
 //	private SearchView searchView;
 	
@@ -37,6 +41,8 @@ public class SelectActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_list);
+		ProjectExit.getInstance().addActivity(this);
+		
 		//搜索 按钮
 //		searchView = (SearchView) findViewById(R.id.searchView1);
 //		searchView.setOnClickListener(new OnClickListener() {
@@ -197,7 +203,7 @@ public class SelectActivity extends Activity {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							finish();
+							ProjectExit.getInstance().exit();
 						}
 					});
 			build.setNegativeButton("取消",

@@ -1,21 +1,24 @@
 package com.ab.autobeauty;
 
+import com.ab.autobeautyExit.ProjectExit;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class ThirdActivity extends Activity {
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.intro);
-		
+		ProjectExit.getInstance().addActivity(this);
 	}
 	
 	@Override
@@ -40,7 +43,7 @@ public class ThirdActivity extends Activity {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							finish();
+							ProjectExit.getInstance().exit();
 						}
 					});
 			build.setNegativeButton("取消",
